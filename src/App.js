@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.css'
+import { Infos } from './components/Infos/Infos';
+import { DevisForm } from './components/DevisForm/DevisForm';
+import { FactureForm } from './components/FactureForm/FactureForm';
 
-function App() {
+const App = () => {
+  const [showForm, setShowForm] = useState(false)
+  const [showFact, setShowFact] = useState(false)
+
+  const handleShowDevisForm = () => {
+    setShowForm(showForm => !showForm)
+    if (showFact) {
+      setShowFact(showFact => !showFact)
+    }
+  }
+  const handleShowFactForm = () => {
+    setShowFact(showFact => !showFact)
+    if (showForm) {
+      setShowForm(showForm => !showForm)
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Infos showForm={showForm} showFact={showFact} handleShowDevisForm={handleShowDevisForm} handleShowFactForm={handleShowFactForm} />
+      {showForm && <DevisForm />}
+      {showFact && <FactureForm />}
+    </>
   );
 }
 

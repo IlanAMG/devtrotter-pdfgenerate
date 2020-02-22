@@ -1,38 +1,139 @@
-.App {
-  text-align: center;
+/* CSS RESET */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* FIN RESET CSS */
+
+
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+body {
+    font-family: 'Valera Round', sans-serif;
+}
+#pdf iframe {
+    width: 100%;
+    height: 1000px;
+    bottom: 0px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+    color: #ffffff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #494949;
+    padding: 20px;
+    border: 3px solid #ffffff !important;
+    display: inline-block;
+    transition: all 0.4s ease 0s;
+}
+button:hover {
+    color: rgb(228, 249, 255) !important;
+    background: #FF9A38;
+    border-color: #FF9A38 !important;
+    transition: all 0.4s ease 0s;
+}
+button:focus {
+outline: 0 !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+h1 {
+    text-align: center;
+    padding: 15px;
+    user-select: none;
+    margin: 0 !important;
 }
 
-.App-link {
-  color: #61dafb;
+.container-choix {
+    display: flex;
+    padding: 5px;
+    margin-bottom: 30px;
+    justify-content: space-around;
+    align-self: center;
+    background-color: #494949;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.wrap-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-form {
+    display: flex;
+    width:  100%;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.container-infosdevis {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-input {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.wrap-form button {
+    margin: 20px;
+}
+
+.container-imgfooter {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.container-imgload {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+
+.container-footer {
+    margin: 30px;
 }
