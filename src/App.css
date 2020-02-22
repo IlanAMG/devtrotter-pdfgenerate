@@ -48,8 +48,9 @@ table {
 
 
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
 body {
-    font-family: 'Valera Round', sans-serif;
+    font-family: 'Valera Round', sans-serif !important;
 }
 #pdf iframe {
     width: 100%;
@@ -81,6 +82,7 @@ h1 {
     text-align: center;
     padding: 15px;
     user-select: none;
+    font-style: 2em;
     margin: 0 !important;
 }
 
