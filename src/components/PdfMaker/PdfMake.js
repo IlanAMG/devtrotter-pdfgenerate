@@ -17,82 +17,82 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     image: {
-        width: 250,
-        maxHeight: 200,
-        alignSelf: 'center'
+        width: '100%',
+        alignSelf: 'center',
+        marginBottom: 20,
     },
-    infosPerso: {
-        margin: 20,
-        lineHeight: 1.5
-    },
+    containerInfosDevis: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },  
     infosClient: {
         margin: 10,
         lineHeight: 1.5,
-        alignSelf: "flex-end"
     },
     containerDevis: {
-        marginTop: 20,
         marginBottom: 20
     },
     devis: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5
     },
     produitsContainer: {
-        borderWidth: 1,
         display: 'flex',
         flexDirection: 'column',
         padding: 0,
-        borderColor: '#000000',
         width: '100%',
         height: 'auto'
     },
-
     titreContainer: {
         display: 'flex',
         flexDirection: 'row',
         width: '100%'
     },
-
-    titreProduits: {
-        textAlign: 'center',
-        fontSize: 18,
+    titreDesign: {
+        fontSize: 12,
         borderBottomWidth: 1,
-        borderRightWidth: 1,
-        width: '15%',
+        width: '70%',
         padding: 3,
-        backgroundColor: '#EAFFF7'
+    },
+    titrePrix: {
+        fontSize: 12,
+        borderBottomWidth: 1,
+        width: '30%',
+        padding: 3,
+        textAlign: 'right',
     },
     listeContainer: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        borderBottomWidth: 1,
+        borderBottomColor: '#79777A',
+        paddingBottom: 5,
+    },
+    optionsPack: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: "space-between",
+        flexDirection: 'row',
     },
     ligneProduits: {
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
-        borderBottomWidth: 1
-    },
-    produitsKey: {
-        width: '15%',
-        textAlign: 'center',
-        padding: 3,
-    },
-    titreDesign: {
-        textAlign: 'center',
-        fontSize: 18,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        width: '40%',
-        padding: 3,
-        backgroundColor: '#EAFFF7'
     },
     produitsDesign: {
-        width: '40%',
-        textAlign: 'center',
+        width: '60%',
+        textAlign: 'left',
         padding: 3,
+    },
+    produitsPrix: {
+        width: '40%',
+        padding: 3,
+        textAlign: 'right',
     },
     totalContainer: {
         borderWidth: 1,
@@ -100,7 +100,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '45%',
         alignSelf: 'flex-end',
-        marginTop: 20,
+    },
+    totalContainerAcompte: {
+        borderWidth: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        width: '45%',
+        alignSelf: 'flex-end',
+        marginTop: 20
     },
     titreTotalContainer: {
         display: 'flex',
@@ -115,24 +122,24 @@ const styles = StyleSheet.create({
     },
     totalTitre: {
         textAlign: 'center',
-        borderBottomWidth: 1,
         padding: 5,
-        backgroundColor: '#EAFFF7'
+        backgroundColor: '#151515',
+        color: '#ffffff'
     },
     total: {
         textAlign: 'center',
-        borderBottomWidth: 1,
         padding: 5,
     },
     footer: {
         width: '100%',
-        backgroundColor: '#EAFFF7',
-        padding: 10
+        backgroundColor: '#151515',
+        padding: 8
     },
 
     footerLigne: {
         textAlign: 'center',
-        fontSize: 12
+        fontSize: 10,
+        color: '#ffffff'
     },
     noteContainer: {
         display: 'flex',
@@ -144,131 +151,197 @@ const styles = StyleSheet.create({
     }
 })
 
-const totals = {
-    totalHT: 0,
-    totalTTC: 0,
-    TVA: 0,
-}
-
-const totalTTC = (produits) => {
-    const resultTotalTTC = Object.keys(produits)
-    .map(key => {
-        const montant = parseFloat(produits[key].montant, 10)
-        const quantity = parseInt(produits[key].quantity, 10)
-        const totalTTCproduit = (montant * quantity)
-        return totalTTCproduit
+const calculPrix = (arr) => {
+    const total = arr.map(option => {
+        return (
+            option.prix
+        )
     })
     .reduce((acc, curr) => acc + curr, 0)
-    return totals.totalTTC = parseFloat(resultTotalTTC.toFixed(2))
+    return total
 }
 
-const totalHT = (produits) => {
-    const resultTotalHT = Object.keys(produits)
-    .map(key => {
-        const montant = parseFloat(produits[key].montant, 10)
-        const quantity = parseInt(produits[key].quantity, 10)
-        const taxe = parseFloat(produits[key].taxe, 10)
-        const taxeTotal = (montant*quantity*taxe)
-        const result = ((montant * quantity) - taxeTotal) //le total HT est calculé ici
-        return result
-    })
-    .reduce((acc, curr) => acc + curr, 0)
-    return totals.totalHT = parseFloat(resultTotalHT.toFixed(2))
+const totalHT = (packSelect, optionsSelect, optionsSelectUI, optionsPers, hebergementSelect, bddSelect) => {
+    const prixOptionsSelect = calculPrix(optionsSelect)
+    const prixOptionsSelectUI = calculPrix(optionsSelectUI)
+    const prixOptionsSelectPers = Object.keys(optionsPers)
+                                    .map(key => {
+                                        const prix = parseFloat(optionsPers[key].prix, 10)
+                                        return prix
+                                    })
+                                    .reduce((acc, curr) => acc + curr, 0)
+    const prixHebergement = () => {
+        if (hebergementSelect.prix !== undefined) {
+            return parseFloat(hebergementSelect.prix, 10)
+        } else {
+            return 0
+        }
+    }
+    const prixBdd = () => {
+        if (bddSelect.prix !== undefined) {
+            return parseFloat(bddSelect.prix, 10)
+        } else {
+            return 0
+        }
+    }
+    const prixPack = () => {
+        if (packSelect.prix !== undefined) {
+            return packSelect.prix
+        } else {
+            return 0
+        }
+    }
+    const total = prixPack() + prixOptionsSelect + prixOptionsSelectUI + prixOptionsSelectPers + prixHebergement() + prixBdd()
+    return total.toFixed(2)
 }
 
-const totalTVA = (produits) => {
-    const resultTVA = Object.keys(produits)
-    .map(key => {
-        const montant = parseFloat(produits[key].montant, 10)
-        const quantity = parseInt(produits[key].quantity, 10)
-        const taxe = parseFloat(produits[key].taxe, 10)
-        const taxeTotal = (montant*quantity*taxe)
-        return taxeTotal
-    })
-    .reduce((acc, curr) => acc + curr, 0)
-    return totals.TVA = parseFloat(resultTVA.toFixed(2))
-}
-
-const requireImg = (url) => {
-    if (url === '') {
-        return require(`../../logojeff.png`)
+const calculAcompte = (prixTotal, acompte) => {
+    if (acompte >= 0.1 && acompte <= 0.9) {
+        return parseFloat(prixTotal * acompte, 10).toFixed(2) 
     } else {
-        return url
-    } 
+        return parseFloat(prixTotal * 0.4, 10).toFixed(2) 
+    }
 }
 
-const PdfMake = ({ infos, produits, url, footer }) => (
+const PdfMake = ({ infos, packSelect, optionsSelect, optionsSelectUI, optionsPers, hebergementSelect, bddSelect, footer }) => (
     <Document>
         <Page size='A4' style={styles.page}>
             <View style={styles.pdf}>
-                <Image style={styles.image} src={requireImg(url)} alt="image" />
-                <View style={styles.infosPerso}>
-                    <Text>{infos.title}</Text>
-                    <Text>{infos.adresse}</Text>
-                    <Text>{infos.CP} {infos.ville}</Text>
-                </View>
-                <View style={styles.infosClient}>
-                    <Text>{infos.nomClient}</Text>
-                    <Text>{infos.adresseClient}</Text>
-                    <Text>{infos.CPClient} {infos.villeClient}</Text>
-                </View>
-                <View style={styles.containerDevis}>
-                    <Text style={styles.devis}>DEVIS n°{infos.id}</Text>
-                    <Text>{infos.date}</Text>
+                <Image style={styles.image} src={require(`../../banniere.png`)} alt="image" />
+                <View style={styles.containerInfosDevis}>
+                    <View style={styles.containerDevis}>
+                        <Text style={styles.devis}>DEVIS n°{infos.id}</Text>
+                        <Text style={{color: '#79777A'}}>{infos.date}</Text>
+                    </View>
+                    <View style={styles.infosClient}>
+                        <Text>{infos.nomClient}</Text>
+                        <Text>{infos.adresseClient}</Text>
+                        <Text>{infos.CPClient} {infos.villeClient}</Text>
+                    </View>
                 </View>
 
                 <View style={styles.produitsContainer}>
                     <View style={styles.titreContainer}>
-                        <View style={styles.titreProduits}>
-                            <Text>Quantité</Text>
-                        </View>
                         <View style={styles.titreDesign}>
                             <Text>Désignation</Text>
                         </View>
-                        <View style={styles.titreProduits}>
-                            <Text>TVA</Text>
-                        </View>
-                        <View style={styles.titreProduits}>
-                            <Text>TTC /u</Text>
-                        </View>
-                        <View style={styles.titreProduits}>
-                            <Text>TTC Total</Text>
+                        <View style={styles.titrePrix}>
+                            <Text>Prix HT</Text>
                         </View>
                     </View>
-
-                    <View style={styles.listeContainer}>
-                        {Object.keys(produits).map((key) => (
-                            <View key={key} style={styles.ligneProduits}>
-                                <View style={styles.produitsKey}>
-                                    <Text>{produits[key].quantity}</Text>
-                                </View>
+                    { packSelect.titre &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
                                 <View style={styles.produitsDesign}>
-                                    <Text>{produits[key].description} </Text>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>{packSelect.titre}</Text>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>{packSelect.type}</Text>
                                 </View>
-                                <View style={styles.produitsKey}>
-                                    <Text>{parseFloat(produits[key].taxe) * 100}%</Text>
-                                </View>
-                                <View style={styles.produitsKey}>
-                                    <Text>{produits[key].montant} €</Text>
-                                </View>
-                                <View style={styles.produitsKey}>
-                                    <Text>{parseFloat(produits[key].quantity * produits[key].montant)} €</Text>
+                                <View style={styles.produitsPrix}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>{packSelect.prix} €</Text>
                                 </View>
                             </View>
-                        ))}
-                    </View>
+                            { packSelect.options.map(option => {
+                                    return (
+                                        <View style={styles.optionsPack}>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>- {option.desc}</Text>
+                                        </View>
+                                    )})
+                            }
+                        </View>
+                    }
+                    { optionsSelect[0] &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
+                                <View style={styles.produitsDesign}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>OPTIONS DÉVELOPPEMENT WEB</Text>
+                                </View>
+                            </View>
+                            { optionsSelect.map(option => {
+                                    return (
+                                        <View style={styles.optionsPack}>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>- {option.desc} : OUI</Text>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>{option.prix} €</Text>
+                                        </View>
+                                    )})
+                            }
+                        </View>
+                    }
+                    { hebergementSelect.id !== undefined &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
+                                <View style={styles.produitsDesign}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>HÉBERGEMENT</Text>
+                                </View>
+                            </View>
+                            <View style={styles.optionsPack}>    
+                               <Text style={{fontSize: 10, color: '#79777A'}}>- Type : {hebergementSelect.type}</Text>
+                               <Text style={{fontSize: 10, color: '#79777A'}}>{hebergementSelect.prix} €</Text>
+                            </View>
+                        </View>
+                    }
+                    { bddSelect.id !== undefined &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
+                                <View style={styles.produitsDesign}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>BASE DE DONNÉE</Text>
+                                </View>
+                            </View>
+                            <View style={styles.optionsPack}>    
+                               <Text style={{fontSize: 10, color: '#79777A'}}>- Type : {bddSelect.type}</Text>
+                               <Text style={{fontSize: 10, color: '#79777A'}}>{bddSelect.prix} €</Text>
+                            </View>
+                        </View>
+                    }
+                    { optionsSelectUI[0] &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
+                                <View style={styles.produitsDesign}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>OPTIONS CRÉATION GRAPHIQUE | UX / UI DESIGN</Text>
+                                </View>
+                            </View>
+                            { optionsSelectUI.map(option => {
+                                    return (
+                                        <View style={styles.optionsPack}>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>- {option.desc} : OUI</Text>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>{option.prix} €</Text>
+                                        </View>
+                                    )})
+                            }
+                        </View>
+                    }
+                    { Object.keys(optionsPers)[0] &&
+                        <View style={styles.listeContainer}>
+                            <View style={styles.ligneProduits}>
+                                <View style={styles.produitsDesign}>
+                                    <Text style={{fontSize: 11, color: '#79777A'}}>OPTIONS PERSONNALIÉES</Text>
+                                </View>
+                            </View>
+                            { Object.keys(optionsPers).map(key => {
+                                    return (
+                                        <View style={styles.optionsPack}>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>- {optionsPers[key].desc}</Text>
+                                            <Text style={{fontSize: 10, color: '#79777A'}}>{optionsPers[key].prix} €</Text>
+                                        </View>
+                                    )})
+                            }
+                        </View>
+                    }
                 </View>
                    
-                <View style={styles.totalContainer}>
+                <View style={styles.totalContainerAcompte}>
                     <View style={styles.titreTotalContainer}>
-                        <Text style={styles.totalTitre}>Total TVA</Text>
-                        <Text style={styles.totalTitre}>Total HT</Text>
-                        <Text style={styles.totalTitre}>Total TTC</Text>
+                        <Text style={styles.totalTitre}>Acompte {infos.acompte === null ? '40%' : infos.acompte * 100 + '%'}</Text>
                     </View>
                     <View style={styles.resultTotalContainer}>
-                        <Text style={styles.total}>{totalTVA(produits)} €</Text>
-                        <Text style={styles.total}>{totalHT(produits)} €</Text>
-                        <Text style={styles.total}>{totalTTC(produits)} €</Text>
+                        <Text style={styles.total}>{calculAcompte(totalHT(packSelect, optionsSelect, optionsSelectUI, optionsPers, hebergementSelect, bddSelect), infos.acompte)} €</Text>
+                    </View>
+                </View>
+                <View style={styles.totalContainer}>
+                    <View style={styles.titreTotalContainer}>
+                        <Text style={styles.totalTitre}>Total HT</Text>
+                    </View>
+                    <View style={styles.resultTotalContainer}>
+                        <Text style={styles.total}>{totalHT(packSelect, optionsSelect, optionsSelectUI, optionsPers, hebergementSelect, bddSelect)} €</Text>
                     </View>
                 </View>
                 <View style={styles.noteContainer}>
@@ -285,10 +358,18 @@ const PdfMake = ({ infos, produits, url, footer }) => (
     </Document>
 )
 
-export const renderPDFInDom = (infos, produits, url, footer) => {
+export const renderPDFInDom = (infos, packSelect, optionsSelect, optionsSelectUI, optionsPers, hebergementSelect, bddSelect, footer) => {
     const Wrapper = () => (
         <PDFViewer>
-            <PdfMake footer={footer} url={url} infos={infos} produits={produits} />
+            <PdfMake 
+            infos={infos} 
+            packSelect={packSelect}
+            optionsSelect={optionsSelect}
+            optionsSelectUI={optionsSelectUI}
+            optionsPers={optionsPers}
+            hebergementSelect={hebergementSelect}
+            bddSelect={bddSelect}
+            footer={footer} />
         </PDFViewer>
     )
     ReactDOM.render(<Wrapper />, document.getElementById('pdf'));

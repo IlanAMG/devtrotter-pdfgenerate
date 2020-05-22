@@ -70,8 +70,8 @@ button {
 }
 button:hover {
     color: rgb(228, 249, 255) !important;
-    background: #FF9A38;
-    border-color: #FF9A38 !important;
+    background: rgb(0, 20, 51);
+    border-color: rgb(0, 20, 51) !important;
     transition: all 0.4s ease 0s;
 }
 button:focus {
@@ -105,7 +105,7 @@ h1 {
     display: flex;
     width:  100%;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin: 30px;
 }
 
 .container-infosdevis {
@@ -130,12 +130,55 @@ h1 {
     justify-content: center;
 }
 
-.container-imgload {
-    display: flex;
-    flex-direction: column;
+.container-footer {
     margin: 30px;
 }
 
-.container-footer {
+.container-packs {
+    width: 80%;
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
     margin: 30px;
+}
+
+.pack {
+    width: 30%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 20, 51);
+}
+.pack:hover {
+    transform: scale(1.02);
+}
+.select {
+    width: auto;
+    border: solid 5px #54ffaa;
+}
+
+.container-hebergement-bdd {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 30px;
+}
+.container-hebergement-bdd div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+h3 {
+    margin: 30px !important;
+}
+
+.container-optionsPers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.container-optionsPers input {
+    width: 100%;
 }
