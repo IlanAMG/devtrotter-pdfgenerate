@@ -209,38 +209,34 @@ export const DevisForm = () => {
         },
         {
             id: 3,
-            desc: 'Hébergement du site : Inclus'
-        },
-        {
-            id: 4,
             desc: 'Jusqu\'à 4 pages (dont une page et à propos) : Inclus'
         },
         {
-            id: 5,
+            id: 4,
             desc: 'Personnalisation du site avec votre design : Inclus'
         },
         {
-            id: 6,
+            id: 5,
             desc: 'Optimisation tablette et mobile (responsive simple) : Inclus'
         },
         {
-            id: 7,
+            id: 6,
             desc: 'Formulaire de contact : Inclus'
         },
         {
-            id: 8,
+            id: 7,
             desc: 'Page mentions légales : Inclus'
         },
         {
-            id: 9,
+            id: 8,
             desc: 'Liens vers les réseaux sociaux : Inclus'
         },
         {
-            id: 10,
+            id: 9,
             desc: 'Cession des droit d\'utilisation : Inclus'
         },
         {
-            id: 11,
+            id: 10,
             desc: 'Optimisation du référencement (page d\'accueil) : Inclus'
         },
     ]
