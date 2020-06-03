@@ -407,7 +407,11 @@ export const DevisForm = () => {
         },
         {
             id: 21,
-            desc: 'Optimisation du référencement (page d\'accueil) : Inclus'
+            desc: 'Optimisation du référencement (page d\'accueil + 6 pages) : Inclus'
+        },
+        {
+            id: 22,
+            desc: 'Etude d\'optimisation ergonomie et accessibilité : Inclus'
         },
     ]
 
